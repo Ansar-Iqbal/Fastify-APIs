@@ -21,6 +21,22 @@ export async function findProductById(id: number) {
   });
 }
 
+// Find product by user function
+export async function findProductByUserId(owner_id: number) {
+  return db.product.findMany({
+    where: { owner_id  },
+    select:{
+      owner_id: true,
+      title: true,
+      content: true,
+      price: true,
+      categoryType: true,
+      created_at: true,
+      updated_at: true
+    }
+  });
+}
+
 // Get all products function
 export async function findProducts() {
   return db.product.findMany();

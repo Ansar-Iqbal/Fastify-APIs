@@ -1,6 +1,6 @@
 // filepath: d:\SO\fastify-api-task\src\components\product\product.route.ts
 import { FastifyInstance } from "fastify";
-import { createProductHandler, getProductsHandler, getProductByIdHandler, updateProductHandler, deleteProductHandler, getProductsByCategoryHandler } from "./product.controller";
+import { createProductHandler, getProductsHandler, getProductByIdHandler, updateProductHandler, deleteProductHandler, getProductsByCategoryHandler, getProductByOwnerIdHandler } from "./product.controller";
 import { createProductResponseSchema, createProductSchema, updateProductSchema } from "./product.schema";
 
 async function productRoutes(server: FastifyInstance) {
@@ -31,6 +31,18 @@ async function productRoutes(server: FastifyInstance) {
     },
     getProductsHandler
   );
+
+    // Get all Products
+    server.get(
+      "/user/:user_id",
+      {
+        schema: {
+          tags: ['Product']
+        },
+        preHandler: [server.authenticate],
+      },
+      getProductByOwnerIdHandler
+    );
 
   // Get Product by ID
   server.get("/:id", { schema: { tags: ['Product'] } }, getProductByIdHandler);

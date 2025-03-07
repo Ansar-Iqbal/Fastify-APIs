@@ -28,7 +28,17 @@ declare module "fastify" {
 // Extend FastifyJWT interface to include user property
 declare module "@fastify/jwt" {
   interface FastifyJWT {
-    user: {
+    user: {  
+      id: number;
+      email: string;
+    };
+  }
+}
+
+// Extend FastifyJWT interface to include user property
+declare module "@fastify/jwt" {
+  interface FastifyJWT {
+    admin: {  
       id: number;
       email: string;
     };

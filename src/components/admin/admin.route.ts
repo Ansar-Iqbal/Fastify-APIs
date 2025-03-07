@@ -56,7 +56,7 @@ async function adminRoutes(server: FastifyInstance) {
                 },
                 tags: ['Admin'] 
             },
-            preHandler: [server.authenticate],
+            //preHandler: [server.authenticate],
         },
         updateAdminHandler
     );

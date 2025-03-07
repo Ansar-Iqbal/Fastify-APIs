@@ -5,7 +5,8 @@ const createProductSchema = {
       title: { type: 'string' },
       content: { type: 'string' },
       price: { type: 'number' },
-      categoryType: { type: 'string', enum: ['HOME', 'ELECTRONICS', 'MENS_COLLECTION', 'WOMENS_COLLECTION', 'HEALTH_BEAUTY'] }
+      categoryType: { type: 'string', 
+        enum: ['HOME', 'ELECTRONICS', 'MENS_COLLECTION', 'WOMENS_COLLECTION', 'HEALTH_BEAUTY'] }
     },
     required: ['title', 'price', 'categoryType']
   };
