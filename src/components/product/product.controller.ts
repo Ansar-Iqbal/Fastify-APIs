@@ -1,27 +1,27 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { createProduct, findProductById, findProducts, updateProduct, deleteProduct, findProductsByCategory, findProductByUserId } from "./product.service";
+import { createProduct, findProductById, findProducts, updateProduct, deleteProduct, findProductsByCategory } from "./product.service";
 import { CategoryType } from "@prisma/client";
 
 //-----------------------------------CREATE PRODUCT HANDLER-----------------------------------
-export async function createProductHandler(
-  request: FastifyRequest<{ Body: { title: string; content?: string; price: number; categoryType: string } }>,
-  reply: FastifyReply
-) {
-  const body = request.body;
-  // Extract owner_id from the JWT token or admin id if available
-  const owner_id = request.user?.id;
-  // adding log for debugging
-  console.log("Request user:", request.user); 
-  console.log("Owner ID:", owner_id); // Add logging
-  try {
-    const categoryType = body.categoryType as CategoryType; // Convert categoryType to enum
-    const product = await createProduct({ ...body, owner_id, categoryType });
-    return reply.code(201).send(product);
-  } catch (e) {
-    console.log(e);
-    return reply.code(500).send(e);
+  export async function createProductHandler(
+    request: FastifyRequest<{ Body: { title: string; content?: string; price: number; categoryType: string } }>,
+    reply: FastifyReply
+  ) {
+    const body = request.body;
+    // Extract owner_id from the JWT token
+    const owner_id = request.user?.id;
+    // adding log for debugging
+    console.log("Request user:", request.user); 
+    console.log("Owner ID:", owner_id); // Add logging
+    try {
+      const categoryType = body.categoryType as CategoryType; // Convert categoryType to enum
+      const product = await createProduct({ ...body, owner_id, categoryType });
+      return reply.code(201).send(product);
+    } catch (e) {
+      console.log(e);
+      return reply.code(500).send(e);
+    }
   }
-}
 
 //-----------------------------------GET PRODUCTS HANDLER-----------------------------------
 export async function getProductsHandler() {
@@ -38,19 +38,6 @@ export async function getProductByIdHandler(
   const product = await findProductById(id);
   if (!product) {
     return reply.code(404).send({ message: `Product with id ${id} not found` });
-  }
-  return product;
-}
-
-//-----------------------------------GET PRODUCT BY ID HANDLER-----------------------------------
-export async function getProductByOwnerIdHandler(
-  request: FastifyRequest<{ Params: { user_id: number } }>,
-  reply: FastifyReply
-) {
-  const user_id = Number(request.params.user_id);
-  const product = await findProductByUserId(user_id);
-  if (!product) {
-    return reply.code(404).send({ message: `Product having user id ${user_id} not found` });
   }
   return product;
 }

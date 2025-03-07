@@ -8,11 +8,6 @@ import { createUserSchema, createUserResponseSchema, userLoginSchema, userLoginR
 import userRoutes from "./src/components/user/user.route";
 import productRoutes from "./src/components/product/product.route";
 import { createProductResponseSchema, createProductSchema, updateProductSchema } from "./src/components/product/product.schema";
-//import { createProductSchema, createProductResponseSchema, updateProductSchema } from "./src/components/products/product.schema";
-//import userRoutes from "./src/components/users/user.route";
-//import productRoutes from "./src/components/products/product.route";
-//import { createUserSchema, createUserResponseSchema, loginSchema as userLoginSchema, loginResponseSchema as userLoginResponseSchema, updateUserSchema } from "./src/components/users/user.schema";
-//import { createProductSchema, createProductResponseSchema, updateProductSchema } from "./src/components/products/product.schema";
 
 export const server = Fastify({ logger: true });
 
@@ -35,7 +30,7 @@ declare module "@fastify/jwt" {
   }
 }
 
-// Extend FastifyJWT interface to include user property
+// Extend FastifyJWT interface to include admin property
 declare module "@fastify/jwt" {
   interface FastifyJWT {
     admin: {  
@@ -64,8 +59,6 @@ server.get("/health", async () => {
   return { status: "OK" };
 });
 
-// Start server
-  //const main = async () => {
 
   // Register all schemas (userSchemas, productSchemas, adminSchemas)
   const schemas = [
@@ -88,7 +81,7 @@ server.get("/health", async () => {
     server.addSchema(schema);
   };
 
-  
+//-----------------------------------Swagger Configuration-----------------------------------
   server.register(fastifySwagger, {
     swagger: {
       info: {
@@ -113,7 +106,7 @@ server.get("/health", async () => {
     routePrefix: '/documentations', 
   }); 
   
-  // Routes
+//-----------------------------------Module Routes-----------------------------------
   server.register(adminRoutes, { prefix: "/api/admins" });
   server.register(userRoutes, { prefix: "/api/users" });
   server.register(productRoutes, { prefix: "/api/products" });
